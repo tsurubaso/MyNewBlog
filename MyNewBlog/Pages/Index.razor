@@ -4,17 +4,46 @@
 
 
 <div class="container">
-    <h1>Title</h1>
-    <p>Introduction text</p>
+    @foreach (var post in posts)
+    {
+        <a href="/article/@post.Id">
+
+
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="w-100" src="img/articleMainImages/@post.Image">
+            </div>
+                <div class="col-sm-8 post-front-page ">
+
+                <h1>@post.Title</h1>
+                <p>@post.Introduction</p>
+
+
+            </div>
+
+        </div>
+        </a>
+
+    }
+
 
 
 
 </div>
 
 @using MyNewBlog.Data;
+@inject IConfiguration configuration;
 
-@code{
+@code {
+    private AppDbContext _context;
+    public List<MyNewBlog.Data.Post> posts;
 
+    protected override async Task OnInitializedAsync()
+    {
 
+        _context = new AppDbContext(configuration);
+        posts = _context.Posts.ToList();
+
+    }
 
 }

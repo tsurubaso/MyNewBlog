@@ -1,0 +1,42 @@
+﻿@page "/article/{id:int}"
+
+
+<div class="container">
+
+    <div class="container">
+        <div class="col-9">
+            <img class="w-100" src="img/articleMainImages/@post.Image">
+            <h1 class="postTitle">@post.Title</h1>
+            <h3 class="postIntroduction">@post.Introduction </h3>
+            <p>@post.BodyText</p>
+        </div>
+        <div class="col-3">
+        </div>
+
+    </div>
+  
+
+
+</div>
+
+
+@using MyNewBlog.Data;
+@inject IConfiguration configuration;
+
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+
+    private AppDbContext _context;
+    public MyNewBlog.Data.Post post;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        _context = new AppDbContext(configuration);
+        post = _context.Posts.Where(x => x.Id == id).FirstOrDefault();
+
+    }
+
+}
